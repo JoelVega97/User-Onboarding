@@ -32,7 +32,7 @@ export default function UserForms(props){
             <div>
                 <h2>Join our Team</h2>
 
-                <button disabled = {disabled}>Submit</button>
+                <button disabled = {disabled} id = 'submitBtn'>Submit</button>
 
                 <div className = 'error messages'>
                     <div>{errors.first_name}</div>
