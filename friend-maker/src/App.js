@@ -4,17 +4,15 @@ import axios from 'axios'
 import formSchema from './formSchema'
 import * as yup from 'yup'
 import User from './Components/User'
-
-//import UserForm from 'UserForm'
+import UserForm from './Components/UserForms'
 
 const initalValues = {
   email: '',
   first_name: '',
   last_name: '',
-  password: '', 
-  tos: {
-    agree: false,
-  },
+  password: '',
+  avatar: '', 
+  tos: false
 }
 
 const initalErrors = {
@@ -38,7 +36,6 @@ function App() {
   const getUsers = () => {
     axios.get('https://reqres.in/api/users')
       .then(function(res){
-        console.log(res.data.data)
         setUsers(res.data.data)
       })
       .catch(function(err){
@@ -49,7 +46,8 @@ function App() {
   const postNewUser = newUser => {
     axios.post('https://reqres.in/api/users', newUser)
       .then(res => {
-        setUsers([...users], res.data)
+        setUsers([...users, res.data])
+        console.log(users)
       })
       .catch(err => {
         console.log('uh oh')
@@ -85,10 +83,7 @@ function App() {
   const checkboxChange = (name, isChecked) => {
       setValues({
         ...values,
-        tos: {
-          ...values.tos,
-          [name]: isChecked
-        }
+        [name]: isChecked
       })
   }
 
@@ -97,35 +92,35 @@ function App() {
       email: values.email.trim(),
       first_name: values.first_name.trim(),
       last_name: values.last_name.trim(),
-      password: values.password.trim(),
-      tos: Object.keys(values.tos).filter(t => values.tos[t])
+      avatar: values.avatar.trim()
     }
     postNewUser(newUser)
+    debugger
   }
 
   useEffect(() => {
     getUsers()
   }, [])
 
-  // useEffect(() => {
-  //   formSchema.isValid;(values)
-  //   .then(valid => {
-  //     setDisabled(!valid)
-  //   })
-  // }, [values])
+  useEffect(() => {
+    formSchema.isValid(values)
+    .then(valid => {
+      setDisabled(!valid)
+    })
+  }, [values])
 
   return (
     <div className="App">
       <h1>Friend-Maker</h1>
 
-      {/* <UserForm 
+      <UserForm 
             values = {values}
             inputChange = {inputChange}
             checkboxChange = {checkboxChange}
             submit = {submit}
             disabled = {disabled}
             errors = {errors}
-          /> */}
+          />
       {
       users.map(user => {
         return (

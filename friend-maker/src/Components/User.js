@@ -8,7 +8,7 @@ margin: 3% 25%;
 padding: 2%;
 border: solid 5px black;
 border-radius: 15px;
-
+box-shadow: 15px 15px 10px;
 `
 
 
@@ -21,6 +21,7 @@ export default function User({details}){
         <StyledDiv>
             <h2>Name: {details.first_name} {details.last_name} </h2>
             <p>Email: {details.email} </p>
+            <img src = {details.avatar} alt = {details.avatar} ></img>
         </StyledDiv>
 
 
